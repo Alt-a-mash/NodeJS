@@ -1,12 +1,13 @@
 /*
 * Primary file for the API
-*
+* NodeJS/Uptime_App
 */
 
 // Dependencies
 var http = require('http');
 var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
+var config = require('./Config');
 
 // The server should respond to all requests with a string
 var server = http.createServer(function(req,res){
@@ -88,10 +89,10 @@ var server = http.createServer(function(req,res){
   //console.log('Request received with these headers: ', headers);
 });
 
-// Start a server, and have it listen on port 3000
-server.listen(3000,function(){
-  console.log("The server is listening on port 3000 now.");
-})
+// Start a server
+server.listen(config.port,function(){
+  console.log("The server is listening on port " + config.port + " " + config.envName + " mode.");
+});
 
 // Define handlers
 var handlers = {};
