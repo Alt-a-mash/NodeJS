@@ -7,34 +7,14 @@
 var http = require('http');
 var https = require('https');
 var url = require('url');
-var StringDecoder = require('string_decoder').StringDecoder;
-var config = require('./Config');
 var fs = require('fs');
-var _data = require('./lib/data');
-
-// TESTING
-// Create
-_data.create('test', 'newFile', {'foo' : 'bar'}, function(err){
-  console.log('This was the error:', err);
-});
-
-// Read
-_data.read('test', 'newFile', function(err, data){
-  console.log('This was the error:', err, 'and this was the data: ', data);
-});
-
-// Update
-_data.update('test', 'newFile', {'Fruit' : 'Apple'}, function(err){
-  console.log('This was the error:', err);
-});
-
-// Delete
-_data.delete('test', 'newFile', function(err){
-  console.log('This was the error:', err);
-});
+var StringDecoder = require('string_decoder').StringDecoder;
+var config = require('./lib/config');
+var handlers = require('./lib/handlers');
+var helpers = require('./lib/helpers');
 
 // Instantiate the HTTP server
-var httpServer = http.createServer(function(req,res){
+var httpServer = http.createServer(function(req,res) {
   unifiedServer(req, res);
 
   // Send the response
@@ -46,7 +26,7 @@ var httpServer = http.createServer(function(req,res){
 });
 
 // Start the HTTP server
-httpServer.listen(config.httpPort,function(){
+httpServer.listen(config.httpPort,function() {
   console.log("The server is listening on port " + config.httpPort + " " + config.envName + " mode.");
 });
 
@@ -56,17 +36,17 @@ var httpsServerOptions = {
   'cert' : fs.readFileSync('./https/cert.pem')
 };
 
-var httpsServer = https.createServer(httpsServerOptions, function(req,res){
+var httpsServer = https.createServer(httpsServerOptions, function(req,res) {
   unifiedServer(req, res);
 });
 
 // Start the HTTPS server
-httpsServer.listen(config.httpsPort,function(){
+httpsServer.listen(config.httpsPort,function() {
   console.log("The server is listening on port " + config.httpsPort + " " + config.envName + " mode.");
 });
 
 // All the server logiv for both the htto and https server
-var unifiedServer = function(req, res){
+var unifiedServer = function(req, res) {
   // Get the URL and parse it
   var parsedURL = url.parse(req.url, true);
 
@@ -87,11 +67,11 @@ var unifiedServer = function(req, res){
   var decoder = new StringDecoder('utf-8');
   var buffer = '';
 
-  req.on('data', function(data){
+  req.on('data', function(data) {
     buffer += decoder.write(data);
   })
 
-  req.on('end', function(){
+  req.on('end', function() {
     buffer += decoder.end();
 
     // Choose the handler this request should go to. If one is not found, use the notFound handler
@@ -103,11 +83,11 @@ var unifiedServer = function(req, res){
       'queryStringObject' : queryStringObject,
       'method' : method,
       'headers' : headers,
-      'payload' : buffer
+      'payload' : helpers.parseJSONToObject(buffer)
     };
 
     // Route the request to the handler specified in the router
-    chosenHandler(data, function(statusCode, payload){
+    chosenHandler(data, function(statusCode, payload) {
 
       // Use the status code called back by the handler, or default to 200
       statusCode = typeof(statusCode) == 'number' ? statusCode : 200;
@@ -135,20 +115,8 @@ var unifiedServer = function(req, res){
   });
 };
 
-// Define handlers
-var handlers = {};
-
-// Ping handler
-handlers.ping = function(data, callback){
-  callback(200);
-};
-
-// Not found handler
-handlers.notFound = function(data, callback){
-  callback(404);
-};
-
 // Define a request router
 var router = {
-  'ping' : handlers.ping
+  'ping' : handlers.ping,
+  'users' : handlers.users
 };
