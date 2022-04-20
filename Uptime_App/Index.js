@@ -13,8 +13,23 @@ var fs = require('fs');
 var _data = require('./lib/data');
 
 // TESTING
-// @TODO delete this
+// Create
 _data.create('test', 'newFile', {'foo' : 'bar'}, function(err){
+  console.log('This was the error:', err);
+});
+
+// Read
+_data.read('test', 'newFile', function(err, data){
+  console.log('This was the error:', err, 'and this was the data: ', data);
+});
+
+// Update
+_data.update('test', 'newFile', {'Fruit' : 'Apple'}, function(err){
+  console.log('This was the error:', err);
+});
+
+// Delete
+_data.delete('test', 'newFile', function(err){
   console.log('This was the error:', err);
 });
 
