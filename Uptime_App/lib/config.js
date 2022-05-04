@@ -17,6 +17,12 @@ environments.staging = {
     'accountSid' : 'AC144eae96614e106119a8ee86e5435335',
     'authToken' : 'cee48000d225602444cd31458e54700f',
     'fromPhone' : '+14454551883'
+  },
+  'templateGlobals' : {
+    'appName' : 'UptimeChecker',
+    'companyName' : 'CompanyName, Inc',
+    'yearCreated' : '2022',
+    'baseUrl' : 'http://localhost:3000/'
   }
 };
 
@@ -31,6 +37,12 @@ environments.production = {
     'accountSid' : 'AC144eae96614e106119a8ee86e5435335',
     'authToken' : 'cee48000d225602444cd31458e54700f',
     'fromPhone' : '+14454551883'
+  },
+  'templateGlobals' : {
+    'appName' : 'UptimeChecker',
+    'companyName' : 'CompanyName, Inc',
+    'yearCreated' : '2022',
+    'baseUrl' : 'http://localhost:6000/'
   }
 };
 

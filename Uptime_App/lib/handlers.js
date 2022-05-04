@@ -19,11 +19,28 @@ var handlers = {};
 // Index handler
 handlers.index = function(data, callback) {
   // Reject any requst that isn't a GET
-  if (data.method) {
+  if (data.method == 'get') {
+
+    // Prepare data fot interpolation
+    var templateData = {
+      'head.title' : 'This the title',
+      'head.description' : 'This is the meta description',
+      'body.title' : 'Hello templated world!',
+      'body.class' : 'index'
+    };
+
     // Read in a template as a string
-    helpers.getTemplate('index', function(err, str) {
+    helpers.getTemplate('index', templateData, function(err, str) {
       if (!err && str) {
-        callback(200, str, 'html');
+        // Add the universal header and footer
+        helpers.addUniversalTemplates(str, templateData, function(err, str) {
+          if (!err && str) {
+            // Return that page as HTML
+            callback(200, str, 'html');
+          } else {
+            callback(500, undefined, 'html');
+          }
+        });
       } else {
         callback(500, undefined, 'html');
       }
