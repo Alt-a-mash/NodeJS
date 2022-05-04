@@ -8,8 +8,36 @@ var _data = require('./data');
 var helpers = require('./helpers');
 var config = require('./config');
 
-// Define handlers
+// Define the handlers
 var handlers = {};
+
+/*
+* HTML Handlers
+*
+*/
+
+// Index handler
+handlers.index = function(data, callback) {
+  // Reject any requst that isn't a GET
+  if (data.method) {
+    // Read in a template as a string
+    helpers.getTemplate('index', function(err, str) {
+      if (!err && str) {
+        callback(200, str, 'html');
+      } else {
+        callback(500, undefined, 'html');
+      }
+    });
+  } else {
+    callback(405, undefined, 'html');
+  }
+};
+
+/*
+* JSON API Handlers
+*
+*/
+
 
 // Users handler
 handlers.users = function(data, callback) {
