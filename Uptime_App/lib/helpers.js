@@ -62,7 +62,7 @@ helpers.sendTwilioSMS = function(phone, msg, callback) {
   phone = typeof(phone) == 'string' && phone.trim().length == 10 ? phone.trim() : false;
   msg = typeof(msg) == 'string' && msg.trim().length > 0 && msg.trim().length <= 1600 ? msg.trim() : false;
   if (phone && msg) {
-    // Confirgure the request payload
+    // Configure the request payload
     var payload = {
       'From' : config.twilio.fromPhone,
       'To' : '+92' + phone,
@@ -70,7 +70,7 @@ helpers.sendTwilioSMS = function(phone, msg, callback) {
     };
     // Stringify the payload
     var stringPayload = querystring.stringify(payload);
-    // Confirgure the request details
+    // Configure the request details
     var requestDetails = {
       'protocol' : 'https:',
       'hostname' : 'api.twilio.com',
