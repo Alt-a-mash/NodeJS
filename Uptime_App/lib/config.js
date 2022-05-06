@@ -15,7 +15,7 @@ environments.staging = {
   'maxChecks' : 5,
   'twilio' : {
     'accountSid' : 'AC144eae96614e106119a8ee86e5435335',
-    'authToken' : 'cee48000d225602444cd31458e54700f',
+    'authToken' : '198f2e7903670c644faed7e03c31393c',
     'fromPhone' : '+14454551883'
   },
   'templateGlobals' : {
@@ -35,7 +35,7 @@ environments.production = {
   'maxChecks' : 5,
   'twilio' : {
     'accountSid' : 'AC144eae96614e106119a8ee86e5435335',
-    'authToken' : 'cee48000d225602444cd31458e54700f',
+    'authToken' : '198f2e7903670c644faed7e03c31393c',
     'fromPhone' : '+14454551883'
   },
   'templateGlobals' : {

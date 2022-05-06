@@ -96,11 +96,6 @@ server.unifiedServer = function(req, res) {
 
       // Return the response-parts that are content-specific
       var payloadString = '';
-      if (contentType == 'json') {
-        res.setHeader('Content-Type', 'application/json');
-        payload = typeof(payload) == 'object' ? payload : {};
-        payloadString = JSON.stringify(payload);
-      }
       if (contentType == 'html') {
         res.setHeader('Content-Type', 'text/html');
         payloadString = typeof(payload) == 'string' ? payload : '';
@@ -124,6 +119,11 @@ server.unifiedServer = function(req, res) {
       if (contentType == 'plain') {
         res.setHeader('Content-Type', 'text/plain');
         payloadString = typeof(payload) !== 'undefined' ? payload : '';
+      }
+      if (contentType == 'json') {
+        res.setHeader('Content-Type', 'application/json');
+        payload = typeof(payload) == 'object' ? payload : {};
+        payloadString = JSON.stringify(payload);
       }
 
       // Return the response-parts that are common to all content-types
